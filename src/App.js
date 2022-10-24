@@ -1,17 +1,16 @@
 import { render } from "react-dom";
-import { useState, StrictMode, lazy, Suspense } from "react";
+import {  StrictMode } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import ThemeContext from "./ThemeContext";
-
-const Details = lazy(() => import("./Details"));
-const SearchParams = lazy(() => import("./SearchParams"));
+import { Provider } from "react-redux";
+import store from './store'
+import SearchParams from '../src/SearchParams'
+import Details  from '../src/Details'
 
 const App = () => {
-  const theme = useState("darkblue");
+
   return (
     <StrictMode>
-      <ThemeContext.Provider value={theme}>
-        <Suspense fallback={<h1>loading route …</h1>}>
+      <Provider store={store}>
           <BrowserRouter>
             <header>
               <Link to="/">Adopt Me!</Link>
@@ -21,8 +20,7 @@ const App = () => {
               <Route path="/" element={<SearchParams />} />
             </Routes>
           </BrowserRouter>
-        </Suspense>
-      </ThemeContext.Provider>
+      </Provider>
     </StrictMode>
   );
 };
